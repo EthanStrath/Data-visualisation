@@ -8,6 +8,12 @@ y = [2,4,6,8,10,12,14,16,18,20]
 
 plt.plot(x,y)
 
-plt.show()
+plt.xlabel('a')
+plt.ylabel('b')
+plt.title('data')
+plt.legend()
+plt.show
+
+
 
 
