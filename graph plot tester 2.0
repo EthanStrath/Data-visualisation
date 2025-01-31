@@ -1,0 +1,24 @@
+import matplotlib.pyplot as plt
+
+import numpy as np
+
+import csv
+
+import pandas as pd
+
+c = []
+d = []
+
+
+path = "H:\EE 106\S2\weight v hp.csv"
+data1 = pd.read_csv(path)
+
+with open('H:\EE 106\S2\weight v hp.csv', 'r') as csvfile:
+    lines = csv.reader(csvfile, delimiter=',')
+    for row in lines:
+        c.append(row[0])
+        d.append(row[1])
+
+
+data = d.append(c)
+print(data)
