@@ -1,0 +1,11 @@
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+import numpy as np
+
+path = r"C:/Users/qwb24142/Downloads/sensor_timeseries.csv"
+
+data = pd.read_csv(path)
+
+print(data)
