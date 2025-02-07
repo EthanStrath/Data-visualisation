@@ -1,0 +1,19 @@
+import matplotlib.pyplot as plt
+
+import numpy as np
+
+import pandas as pd
+
+path = "H:/EE106/project/sensor_timeseries.csv"
+data1 = pd.read_csv(path)
+data1['timestamp'] = pd.to_datetime(data1['timestamp'])
+data1 = data1.set_index('timestamp')
+            
+
+plt.plot(data1.index,data1['sensor_00'])
+
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Sensor status against value')
+plt.legend()
+plt.show
