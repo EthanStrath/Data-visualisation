@@ -1,0 +1,60 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import tkinter as tk
+from tkinter import ttk
+
+def load_data(fileroute):
+    df = pd.read_csv(fileroute, parse_dates=['timestamp'])
+    df.set_index('timestamp', inplace=True)
+    return df
+
+def plot_single_sensor(selected_sensor):
+    ax.clear()
+    ax.plot(loadfile.index, loadfile[selected_sensor], label=f'{selected_sensor} Value', color='blue')
+
+    if 'Restarting' in loadfile.columns:
+        ax.scatter(loadfile.index[loadfile['Restarting'] == 1], 
+                   loadfile[selected_sensor][loadfile['Restarting'] == 1], 
+                   color='red', label='Restarting Event', zorder=5)
+
+    ax.set_title(f'Sensor: {selected_sensor}', fontsize=14)
+    ax.set_xlabel('Timestamp', fontsize=12)
+    ax.set_ylabel('Sensor Value', fontsize=12)
+    ax.tick_params(axis='x', rotation=45)
+    ax.legend()
+    canvas.draw()
+
+def on_sensor_select(event):
+    sensor_display = select_menu.get()
+    plot_single_sensor(sensor_display)
+
+fileroute = "C:/Uni year 1/EE106/S2 project/sensor_timeseries.csv"
+
+loadfile = load_data(fileroute)
+
+all_sensors = [col for col in loadfile.columns if col != 'Restarting']
+
+root = tk.Tk()
+root.title("Sensor Data Illustration")
+root.geometry("1200x600")
+
+selected_sensor_title = tk.Label(root, text="Select Sensor:", font=("Times New Roman", 12))
+selected_sensor_title.pack(pady=10)
+
+select_menu = ttk.Combobox(root, values=all_sensors, state="readonly", font=("Times New Roman", 10))
+select_menu.pack(pady=10)
+select_menu.bind("<<ComboboxSelected>>", on_sensor_select)
+
+fig, ax = plt.subplots(figsize=(8, 4))
+fig.subplots_adjust(bottom=0.2) 
+
+canvas = FigureCanvasTkAgg(fig, master=root)
+canvas_graph_show = canvas.get_tk_widget()
+canvas_graph_show.pack(fill=tk.BOTH, expand=True)
+
+if all_sensors:
+    select_menu.set(all_sensors[0])
+    plot_single_sensor(all_sensors[0])
+
+root.mainloop()
